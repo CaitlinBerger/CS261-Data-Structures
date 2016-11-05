@@ -257,22 +257,49 @@ void removeBSTree(struct BSTree *tree, BST_DATA_TYPE val)
   }
 }
 
-struct data * findNode(struct Node *tree, int val){
-  /*
-   Finds a data struct with "number" equal to val and returns it. If
-  the node is not found, return NULL
-   
-   Your code should take advantage of the BST property to 
-      traverse only the necessary tree nodes
-  */
-  
+/*
+    Function to find a data struct with "number" equal to val, and return it.
+      param: tree the binary search tree
+        val the value to be found
+      pre: the tree and value are not null
+      post: the data struct containing the value is returned
+*/
+struct data * findNode(struct Node *tree, int val)
+{
+  struct Node * curr = tree;
+
+  while (cur != NULL) {
+    if (compare(val, cur->val) == 0) {
+      /* If the value  is found, return the current node */
+      return cur;
+    } else if (compare(val, cur->val)) {
+      /* If val is less than cur, go left */
+      cur = cur->left;
+    } else {
+      /* Otherwise, val is greater than cur, go right */
+      cur = cur->right;
+    }
+  }
+
+  /* if no nodes are found containing value, return NULL */
   return NULL;
 }
-
-int countNodes(struct Node *tree){
+/*
+    Function to recursively count the number of nodes in the tree
+      param: tree the binary search tree
+      pre: the tree is not null
+*/
+int countNodes(struct Node *tree)
+{
   /*  Returns the number of nodes present in tree including tree
       itself */
-  return 0; 
+  if (tree != NULL) {
+    int count = 1; /* Count initialized to one (for the current node)*/
+    count += countNodes(tree->left);
+    count += countNodes(tree->right);
+  }
+
+  return count;
 }
 
 int secondLargestNode(struct Node *tree){
