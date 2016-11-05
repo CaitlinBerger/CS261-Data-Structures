@@ -266,13 +266,13 @@ void removeBSTree(struct BSTree *tree, BST_DATA_TYPE val)
 */
 struct data * findNode(struct Node *tree, int val)
 {
-  struct Node * curr = tree;
+  struct Node * cur = tree;
 
   while (cur != NULL) {
-    if (compare(val, cur->val) == 0) {
+    if (val == cur->val->number) {
       /* If the value  is found, return the current node */
-      return cur;
-    } else if (compare(val, cur->val)) {
+      return cur->val;
+    } else if (val < cur->val->number) {
       /* If val is less than cur, go left */
       cur = cur->left;
     } else {
@@ -293,8 +293,9 @@ int countNodes(struct Node *tree)
 {
   /*  Returns the number of nodes present in tree including tree
       itself */
+  int count;
   if (tree != NULL) {
-    int count = 1; /* Count initialized to one (for the current node)*/
+    count = 1; /* Count initialized to one (for the current node)*/
     count += countNodes(tree->left);
     count += countNodes(tree->right);
   }
