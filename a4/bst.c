@@ -288,11 +288,10 @@ struct data * findNode(struct Node *tree, int val)
     Function to recursively count the number of nodes in the tree
       param: tree the binary search tree
       pre: the tree is not null
+      post: returns the number of nodes present including the initial node
 */
 int countNodes(struct Node *tree)
 {
-  /*  Returns the number of nodes present in tree including tree
-      itself */
   if (tree != NULL) {
     int count = 1; /* Count initialized to one (for the current node)*/
     count += countNodes(tree->left);
@@ -302,39 +301,87 @@ int countNodes(struct Node *tree)
   return count;
 }
 
+/*
+    Function to return the secodn largest "number" found in the tree
+      param: root node of the tree to be searched, with values greaer than 0
+      pre: the tree is not null
+      post: returns the second largest number. Returns -1 if the tree contains
+        less than 2 nodes
+*/
 int secondLargestNode(struct Node *tree){
-  /*
-    Given a tree containing struct data values with "number" greater
-     than zero, returns the second largest "number" found in tree or
-     its children.  If tree contains less than two nodes return -1;
-  */
-  return -1;
+  struct Node *cur = tree;
+  struct Node *next;
+
+  if (cur->right != NULL) {
+    while (next->right != NULL) {
+      //while there is still a right node, increment current and next one to the right
+      cur = next;
+      next = next->right;
+    }
+    //return cur's value as the second largest value
+    reutrn cur->val->number;
+  } else if (cur->left) {
+    //if there is a left tree, find the right most node and reutrn it's "number"
+    while (cur->right != NULL)
+      cur = cur->right;
+    return cur->val->number;
+  } else {
+    //otherwise, there is only one node, reutrn -1
+    return -1;
+  }
 }
 
+/*
+    Function to perform a preorder traversal of a tree, and appends nodes in the
+        order of the traversal to the deque
+      param: tree the binary search tree's root node
+        d the cirListDeque
+      pre: the tree is not null, d is a new empty deque
+      post: the deque will be full of preordered values from the tree
+*/
 void  flattenPreorder(struct Node *tree, struct cirListDeque * d){
-  /* Performs a preorder traversal of tree and appends nodes in the
-     order of the traversal to the deque. The first call to
-     flattenPreorder should pass the root node of the bst as tree
-     and cirListDeque should be a new, empty deque */
-
-  return  ;
+  if (tree != NULL){
+    addBackCirListDeque(d, tree->val); //append current value to the deque
+    flattenPreorder(tree->left, d); //process left sub-tree
+    flattenPreorder(tree->right, d); //process right sub-tree
+  }
+  return;
 }
-void  flattenPostorder(struct Node *tree,struct cirListDeque * d){
-  /* Performs a postorder traversal of tree and appends nodes in the
-     order of the traversal to the deque. The first call to
-     flattenPreorder should pass the root node of the bst as tree
-     and cirListDeque should be a new, empty deque */
 
+/*
+    Function to perform a postorder traversal of a tree, and appends nodes in
+        the order of the traversal to the deque
+      param: tree the binary search tree's root node
+        d the cirListDeque
+      pre: the tree is not null, d is a new empty deque
+      post: the deque will be full of preordered values from the tree
+*/
+void  flattenPostorder(struct Node *tree,struct cirListDeque * d){
+  if (tree != NULL) {
+    flattenPreorder(tree->left, d); //process left sub-tree
+    flattenPreorder(tree->right, d); //process right sub-tree
+    addBackCirListDeque(d, tree->val); //append current value to the deque
+  }
 
 
   return;
 }
-void  flattenInorder(struct Node *tree,struct cirListDeque * d){
-  /* Performs a inorder traversal of tree and appends nodes in the
-     order of the traversal to the deque. The first call to
-     flattenPreorder should pass the root node of the bst as tree
-     and cirListDeque should be a new, empty deque */
 
+/*
+    Function to perform an inorder traversal of a tree, and appends nodes in
+        the order of the traversal to the deque
+      param: tree the binary search tree's root node
+        d the cirListDeque
+      pre: the tree is not null, d is a new empty deque
+      post: the deque will be full of preordered values from the tree
+*/
+void  flattenInorder(struct Node *tree,struct cirListDeque * d){
+
+  if (tree != NULL) {
+    flattenPreorder(tree->left, d); //process left sub-tree
+    addBackCirListDeque(d, tree->val); //append current value to the deque
+    flattenPreorder(tree->right, d); //process right sub-tree
+  }
 
   return;
 }
