@@ -292,12 +292,9 @@ struct data * findNode(struct Node *tree, int val)
 */
 int countNodes(struct Node *tree)
 {
-<<<<<<< HEAD
-=======
   /*  Returns the number of nodes present in tree including tree
       itself */
   int count;
->>>>>>> origin/master
   if (tree != NULL) {
     count = 1; /* Count initialized to one (for the current node)*/
     count += countNodes(tree->left);
@@ -325,7 +322,7 @@ int secondLargestNode(struct Node *tree){
       next = next->right;
     }
     //return cur's value as the second largest value
-    reutrn cur->val->number;
+    return cur->val->number;
   } else if (cur->left) {
     //if there is a left tree, find the right most node and reutrn it's "number"
     while (cur->right != NULL)
